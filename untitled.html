@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Together Oman - Grade 5A</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            purple: '#6b21a8',
+                            purpleLight: '#8b5cf6',
+                            purpleDark: '#4c1d95',
+                            green: '#10b981',
+                            greenDark: '#059669',
+                            yellow: '#f59e0b',
+                            blue: '#0284c7',
+                            softBg: '#f8fafc'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #c084fc; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #9333ea; }
+        .active-tab { border-bottom: 4px solid #8b5cf6; color: #6b21a8; font-weight: 700; }
+        .speech-bubble {
+            position: relative;
+            background: #ffffff;
+            border-radius: 1rem;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s ease;
+        }
+        .speech-bubble:hover { border-color: #c084fc; transform: translateY(-2px); }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-800 min-h-screen flex flex-col antialiased selection:bg-purple-200 selection:text-purple-900">
+
+    <!-- Top Navigation Header -->
+    <header class="bg-brand-purple text-white sticky top-0 z-30 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <button id="menu-btn" onclick="toggleMenu()" class="p-2 rounded-lg hover:bg-purple-700 transition focus:outline-none focus:ring-2 focus:ring-purple-300" aria-label="Open Navigation Menu">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+                <div class="flex items-center space-x-2">
+                    <span class="bg-amber-400 text-purple-950 font-black text-xs px-2 py-1 rounded-md uppercase tracking-wider">OMAN</span>
+                    <h1 class="font-bold text-lg md:text-xl tracking-tight">Team Together <span class="font-normal text-purple-200">| Grade 5A</span></h1>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <span id="completion-badge" class="hidden text-xs bg-emerald-500 text-white px-2.5 py-1 rounded-full font-bold animate-bounce">
+                    <i class="fa-solid fa-check mr-1"></i> Lesson Complete
+                </span>
+                <button onclick="speakText('Team Together Oman Grade 5A. Welcome Back Lesson 1.')" class="bg-purple-700 hover:bg-purple-600 text-white p-2 rounded-full transition flex items-center justify-center w-10 h-10 shadow" title="Listen to Header">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Slide-out Drawer Navigation (Dual Layer Menu) -->
+    <div id="drawer-backdrop" onclick="toggleMenu()" class="fixed inset-0 bg-black/50 z-40 hidden backdrop-blur-sm transition-opacity"></div>
+    
+    <aside id="drawer-menu" class="fixed top-0 left-0 bottom-0 w-80 md:w-96 bg-white z-50 transform -translate-x-full transition-transform duration-300 ease-in-out shadow-2xl flex flex-col">
+        <div class="bg-brand-purple text-white p-4 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-book-open text-xl"></i>
+                <span class="font-bold text-lg">Curriculum Units</span>
+            </div>
+            <button onclick="toggleMenu()" class="text-white hover:text-purple-200 p-1 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4 space-y-4">
+            <!-- Layer 1: Welcome Back (Active) -->
+            <div class="border border-purple-200 rounded-xl overflow-hidden shadow-sm">
+                <button onclick="toggleUnitAccordion('unit-welcome')" class="w-full bg-purple-50 hover:bg-purple-100 p-3 flex items-center justify-between text-left font-bold text-purple-900 border-b border-purple-200">
+                    <span class="flex items-center space-x-2">
+                        <span class="w-7 h-7 rounded-full bg-brand-purple text-white text-xs flex items-center justify-center font-bold">W</span>
+                        <span>Welcome Back</span>
+                    </span>
+                    <i id="icon-unit-welcome" class="fa-solid fa-chevron-down text-purple-600 transition-transform"></i>
+                </button>
+                <div id="unit-welcome" class="bg-white divide-y divide-slate-100">
+                    <a href="#" onclick="selectLesson('Welcome Back - Lesson 1'); toggleMenu();" class="block p-3 pl-10 hover:bg-purple-50 text-sm font-semibold text-brand-purple border-l-4 border-brand-purple flex items-center justify-between bg-purple-50/50">
+                        <span>Lesson 1: Back in the shed</span>
+                        <span class="text-xs bg-purple-100 text-purple-700 px-2 py-0.5 rounded">CB p.10 / AB p.9</span>
+                    </a>
+                    <a href="#" onclick="alert('Lesson 2 navigation ready for integration.'); toggleMenu();" class="block p-3 pl-10 hover:bg-slate-50 text-sm text-slate-400 flex items-center justify-between cursor-not-allowed">
+                        <span>Lesson 2: Grammar & Routines</span>
+                        <span class="text-xs text-slate-400">Locked</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Layer 1: Unit 1 -->
+            <div class="border border-slate-200 rounded-xl overflow-hidden opacity-75">
+                <button onclick="toggleUnitAccordion('unit-1')" class="w-full bg-slate-50 hover:bg-slate-100 p-3 flex items-center justify-between text-left font-bold text-slate-700 border-b border-slate-200">
+                    <span class="flex items-center space-x-2">
+                        <span class="w-7 h-7 rounded-full bg-emerald-600 text-white text-xs flex items-center justify-center font-bold">1</span>
+                        <span>Unit 1: Talent Show</span>
+                    </span>
+                    <i id="icon-unit-1" class="fa-solid fa-chevron-right text-slate-400 transition-transform"></i>
+                </button>
+                <div id="unit-1" class="hidden bg-white divide-y divide-slate-100">
+                    <div class="p-3 pl-10 text-xs text-slate-500 italic">Lessons coming soon</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-4 border-t border-slate-200 bg-slate-50 text-xs text-slate-500 text-center">
+            Ministry of Education Oman • Pearson / York Press
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 space-y-4">
+
+        <!-- Lesson Header Card -->
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <div class="flex items-center space-x-2 text-xs font-bold text-brand-purple tracking-wide uppercase mb-1">
+                    <span class="bg-purple-100 px-2 py-0.5 rounded">Semester 1</span>
+                    <span>•</span>
+                    <span>Welcome Unit</span>
+                </div>
+                <h2 class="text-2xl font-black text-slate-800" id="current-lesson-title">Welcome Back — Lesson 1</h2>
+                <p class="text-slate-600 text-sm mt-1">Topic: <span class="font-semibold text-purple-700">Back in the shed</span> (Story & Daily Activities)</p>
+            </div>
+            
+            <div class="flex items-center space-x-2">
+                <button onclick="openModal('classbook-modal')" class="bg-purple-50 hover:bg-purple-100 text-brand-purple border border-purple-200 px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-2 transition">
+                    <i class="fa-regular fa-image text-base"></i>
+                    <span>View CB Page 10</span>
+                </button>
+                <button onclick="openModal('activitybook-modal')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-2 transition">
+                    <i class="fa-regular fa-image text-base"></i>
+                    <span>View AB Page 9</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="flex border-b border-slate-200 overflow-x-auto no-scrollbar bg-slate-50/50">
+                <button id="tab-cb-btn" onclick="switchTab('tab-cb')" class="flex-1 min-w-[150px] py-3.5 px-4 text-center font-bold text-sm text-slate-500 hover:text-brand-purple transition flex items-center justify-center space-x-2 active-tab">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Class Book (p. 10)</span>
+                </button>
+                <button id="tab-ab-btn" onclick="switchTab('tab-ab')" class="flex-1 min-w-[150px] py-3.5 px-4 text-center font-bold text-sm text-slate-500 hover:text-brand-purple transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>Activity Book (p. 9)</span>
+                </button>
+                <button id="tab-micro-btn" onclick="switchTab('tab-micro')" class="flex-1 min-w-[170px] py-3.5 px-4 text-center font-bold text-sm text-slate-500 hover:text-brand-purple transition flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>Micro-Lessons & Audio</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: CLASS BOOK PAGE 10 (Interactive Comic) -->
+            <div id="tab-cb" class="p-4 sm:p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-8 h-8 rounded-full bg-purple-600 text-white font-black text-sm flex items-center justify-center">10</span>
+                        <h3 class="font-black text-xl text-slate-800">Welcome Back — <span class="text-brand-purple">Back in the shed</span></h3>
+                    </div>
+                    <button onclick="speakText('Lesson 1. Watch or listen and read. Back in the shed.')" class="bg-purple-100 hover:bg-purple-200 text-purple-800 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1.5 transition self-start">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span>Listen to Page Intro</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Comic Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Panel 1 -->
+                    <div class="border-2 border-slate-200 rounded-2xl p-4 bg-slate-50 space-y-3 hover:border-purple-300 transition">
+                        <div class="flex items-center justify-between">
+                            <span class="bg-slate-800 text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center">1</span>
+                            <span class="text-xs font-bold text-purple-600 bg-purple-100 px-2 py-0.5 rounded">At School Playground</span>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="speech-bubble p-3 cursor-pointer group" onclick="speakText('It was great to be back at school and see all our friends again!')">
+                                <div class="flex items-start justify-between gap-2">
+                                    <p class="text-xs text-slate-700 italic">"It was great to be back at school and see all our friends again!"</p>
+                                    <i class="fa-solid fa-volume-high text-slate-300 group-hover:text-purple-600 transition text-sm"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: ACTIVITY BOOK PAGE 9 (Interactive Exercise) -->
+            <div id="tab-ab" class="hidden p-4 sm:p-6 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+                    <div class="flex items-center space-x-3">
+                        <span class="w-8 h-8 rounded-full bg-emerald-600 text-white font-black text-sm flex items-center justify-center">9</span>
+                        <h3 class="font-black text-xl text-slate-800">Activity Book — <span class="text-emerald-600">Welcome Lesson 1, Part 2</span></h3>
+                    </div>
+                    <button onclick="speakText('Activity Book page 9. What are they doing? Write and match.')" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1.5 transition self-start">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span>Listen Intro</span>
+                    </button>
+                </div>
+
+                <!-- Activity Form -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-6 h-6 rounded-full bg-emerald-600 text-white text-xs font-bold flex items-center justify-center">4</span>
+                            <span class="font-bold text-slate-800 text-sm">What are they doing? Write and match.</span>
+                        </div>
+                        <div class="space-x-2">
+                            <button onclick="clearActivity()" class="text-xs text-slate-500 hover:text-rose-600 font-semibold px-2 py-1">Clear</button>
+                            <button onclick="checkActivity()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs px-4 py-2 rounded-xl font-bold transition shadow-sm">Check Answers</button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                            <span class="text-slate-700 font-medium">1. Khalid build a robot</span>
+                            <div class="flex items-center space-x-2">
+                                <input type="text" id="ex-1" placeholder="Type answer..." class="p-1.5 px-3 border border-slate-300 rounded-lg text-center text-purple-900 font-bold focus:ring-2 focus:ring-emerald-400 focus:outline-none w-44 text-xs">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ex-feedback" class="hidden text-sm font-bold p-3 rounded-xl text-center transition-all"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: MICRO-LESSONS & AUDIO -->
+            <div id="tab-micro" class="hidden p-4 sm:p-6 space-y-6">
+                <div>
+                    <h3 class="font-black text-xl text-slate-800">Interactive Micro-Lessons</h3>
+                    <p class="text-xs text-slate-500">Bite-sized modules focusing on key vocabulary and grammar.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals with Standardized Filenames -->
+    <div id="classbook-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+            <div class="bg-brand-purple text-white p-4 flex items-center justify-between">
+                <h3 class="font-bold text-lg">Class Book — Page 10</h3>
+                <button onclick="closeModal('classbook-modal')" class="text-white hover:text-purple-200 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-4 overflow-y-auto flex-1 bg-slate-900 flex justify-center items-center">
+                <img src="classbook-page10.jpg" 
+                     onerror="this.onerror=null; this.src='https://placehold.co/800x1100/6b21a8/ffffff?text=Please+upload+classbook-page10.jpg';" 
+                     alt="Class Book Page 10" class="max-w-full h-auto rounded-lg shadow-lg">
+            </div>
+            <div class="p-3 bg-slate-100 border-t border-slate-200 text-right">
+                <button onclick="closeModal('classbook-modal')" class="bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-bold">Close Preview</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="activitybook-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+            <div class="bg-emerald-700 text-white p-4 flex items-center justify-between">
+                <h3 class="font-bold text-lg">Activity Book — Page 9</h3>
+                <button onclick="closeModal('activitybook-modal')" class="text-white hover:text-emerald-200 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="p-4 overflow-y-auto flex-1 bg-slate-900 flex justify-center items-center">
+                <img src="activitybook-page9.jpg" 
+                     onerror="this.onerror=null; this.src='https://placehold.co/800x1100/047857/ffffff?text=Please+upload+activitybook-page9.jpg';" 
+                     alt="Activity Book Page 9" class="max-w-full h-auto rounded-lg shadow-lg">
+            </div>
+            <div class="p-3 bg-slate-100 border-t border-slate-200 text-right">
+                <button onclick="closeModal('activitybook-modal')" class="bg-slate-700 text-white px-4 py-2 rounded-xl text-xs font-bold">Close Preview</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Engine -->
+    <script>
+        // Speech Synthesis with British Accent Priority
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                const voices = window.speechSynthesis.getVoices();
+                const ukVoice = voices.find(voice => voice.lang.startsWith('en') && (voice.name.includes('UK') || voice.name.includes('British') || voice.name.includes('England')));
+                if (ukVoice) {
+                    utterance.voice = ukVoice;
+                }
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Drawer Navigation
+        function toggleMenu() {
+            const drawer = document.getElementById('drawer-menu');
+            const backdrop = document.getElementById('drawer-backdrop');
+            drawer.classList.toggle('-translate-x-full');
+            backdrop.classList.toggle('hidden');
+        }
+
+        function toggleUnitAccordion(unitId) {
+            const el = document.getElementById(unitId);
+            const icon = document.getElementById('icon-' + unitId);
+            el.classList.toggle('hidden');
+            if (icon) {
+                icon.classList.toggle('fa-chevron-right');
+                icon.classList.toggle('fa-chevron-down');
+            }
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            ['tab-cb', 'tab-ab', 'tab-micro'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+                document.getElementById(id + '-btn').classList.remove('active-tab');
+            });
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById(tabId + '-btn').classList.add('active-tab');
+        }
+
+        function selectLesson(title) {
+            document.getElementById('current-lesson-title').innerText = title;
+        }
+
+        // Modal Controls
+        function openModal(modalId) { document.getElementById(modalId).classList.remove('hidden'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.add('hidden'); }
+
+        // Local Storage & Exercise Logic
+        window.onload = function() {
+            const savedAns = localStorage.getItem('tot_om_5a_uW_l1_q1');
+            if (savedAns) {
+                document.getElementById('ex-1').value = savedAns;
+            }
+        };
+
+        function checkActivity() {
+            const q1 = document.getElementById('ex-1').value.trim();
+            const feedback = document.getElementById('ex-feedback');
+            feedback.classList.remove('hidden');
+
+            localStorage.setItem('tot_om_5a_uW_l1_q1', q1);
+
+            const isCorrect = q1.toLowerCase() === "khalid is building a robot.";
+            
+            if (isCorrect) {
+                feedback.className = "text-sm font-bold p-3 rounded-xl text-center bg-emerald-100 text-emerald-800 border border-emerald-300";
+                feedback.innerText = "🎉 Perfect! 'Khalid is building a robot.' is correct.";
+                speakText("Perfect! Khalid is building a robot.");
+                document.getElementById('completion-badge').classList.remove('hidden');
+            } else {
+                feedback.className = "text-sm font-bold p-3 rounded-xl text-center bg-amber-100 text-amber-800 border border-amber-300";
+                feedback.innerText = "Keep trying! Remember to use present continuous (is building) and a period.";
+            }
+        }
+
+        function clearActivity() {
+            document.getElementById('ex-1').value = '';
+            localStorage.removeItem('tot_om_5a_uW_l1_q1');
+            const feedback = document.getElementById('ex-feedback');
+            feedback.classList.add('hidden');
+            document.getElementById('completion-badge').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
